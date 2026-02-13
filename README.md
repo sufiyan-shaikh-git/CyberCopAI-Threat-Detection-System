@@ -1,7 +1,12 @@
 🛡️ CyberCop: AI-Based Threat Detection Tool
 
-👤 Author & Founder
-Sufiyan Shaikh Cybersecurity Researcher & Lead Developer 📍 Based in: [Udgir, Maharashtra, India]
+## 👤 Author
+**Sufiyan Shaikh** *Founder & Lead Developer of CyberCop AI* 
+[LinkedIn Profile](https://www.linkedin.com/in/shaikh-sufiyan-8b4bba27a/) |
+[Portfolio](https://sufiyan-shaikh-git.github.io/sufiyanshaikh.github.io/)
+
+---
+*If you use this project, please give credit by linking back to this repository. Star ⭐ the repo if you find it helpful!*
 
 🎓 Education: [Swami Vivekanand Mahavidyalaya], Batch of 2023 - 2026.
 
