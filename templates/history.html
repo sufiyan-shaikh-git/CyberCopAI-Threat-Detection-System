@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberCop - Admin Forensic Records</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .history-wrapper { width: 100%; min-height: 100vh; padding: 50px 20px; display: flex; flex-direction: column; align-items: center; }
+        .history-card { width: 100%; max-width: 1200px; background: rgba(10, 11, 16, 0.95); border: 1px solid #333; border-radius: 20px; padding: 30px; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 2px solid #00d4ff; padding-bottom: 15px; }
+        
+        /* Table Styling */
+        .section-title { color: #00d4ff; margin: 40px 0 15px 0; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px; border-left: 5px solid #00d4ff; padding-left: 15px; }
+        table { width: 100%; border-collapse: collapse; color: #eee; margin-bottom: 30px; background: rgba(255,255,255,0.02); }
+        th { background: rgba(0, 212, 255, 0.1); color: #00d4ff; text-align: left; padding: 15px; font-size: 0.8rem; text-transform: uppercase; }
+        td { padding: 12px 15px; border-bottom: 1px solid #222; font-size: 0.85rem; }
+        tr:hover { background: rgba(0, 212, 255, 0.05); }
+
+        /* Status Badges */
+        .status-badge { padding: 4px 10px; border-radius: 5px; font-weight: bold; font-size: 0.7rem; }
+        .bg-safe { background: rgba(0, 255, 0, 0.2); color: #00ff00; }
+        .bg-danger { background: rgba(255, 0, 0, 0.2); color: #ff4d4d; }
+        .bg-warning { background: rgba(255, 204, 0, 0.2); color: #ffcc00; }
+
+        .btn-clear { background: #ff4d4d; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-clear:hover { box-shadow: 0 0 15px #ff4d4d; filter: brightness(1.2); }
+    </style>
+</head>
+
+<body>
+    <div id="admin-lock-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #070b14; z-index: 9999; display: flex; justify-content: center; align-items: center; font-family: 'Courier New', Courier, monospace; overflow: hidden;">
+    
+        <div id="auth-card" style="background: rgba(15, 23, 42, 0.9); border: 2px solid #00f2fe; padding: 45px; border-radius: 15px; text-align: center; box-shadow: 0 0 50px rgba(0, 242, 254, 0.2); width: 400px; transition: 0.5s;">
+            <div style="font-size: 60px; margin-bottom: 20px; filter: drop-shadow(0 0 10px #00f2fe);">🛡️</div>
+            <h2 style="color: #00f2fe; letter-spacing: 3px; margin-bottom: 30px; font-weight: bold;">ADMIN ACCESS</h2>
+            
+            <input type="text" id="admin-user" placeholder="Username" style="width: 100%; padding: 12px; margin-bottom: 15px; background: #000; border: 1px solid #334155; color: #00f2fe; border-radius: 5px; outline: none; text-align: center;">
+            <input type="password" id="admin-pass" placeholder="Password" style="width: 100%; padding: 12px; margin-bottom: 25px; background: #000; border: 1px solid #334155; color: #00f2fe; border-radius: 5px; outline: none; text-align: center;">
+            
+            <button onclick="checkAdmin()" style="width: 100%; padding: 12px; background: #00f2fe; border: none; color: #000; font-weight: bold; border-radius: 5px; cursor: pointer; transition: 0.3s; margin-bottom: 10px;">AUTHORIZE</button>
+            <a href="/" style="color: #64748b; text-decoration: none; font-size: 12px; display: block; margin-top: 10px;">← EXIT TO SYSTEM</a>
+            <p id="error-msg" style="color: #ff4d4d; font-size: 13px; margin-top: 15px; display: none;">ACCESS DENIED: INVALID CREDENTIALS</p>
+        </div>
+    
+        <div id="welcome-screen" style="display: none; text-align: center; opacity: 0; transition: 2s;">
+            <h1 id="welcome-text" style="color: #00f2fe; font-size: 4rem; letter-spacing: 15px; text-shadow: 0 0 20px #00f2fe; margin-bottom: 20px;"></h1>
+            <div style="width: 300px; height: 2px; background: #00f2fe; margin: 0 auto; box-shadow: 0 0 15px #00f2fe;" id="line-anim"></div>
+            <p style="color: #64748b; margin-top: 20px; letter-spacing: 5px;">ACCESS GRANTED | CYBERCOP CORE v1.3</p>
+        </div>
+    </div>
+    
+    <script>
+    function checkAdmin() {
+        const user = document.getElementById('admin-user').value;
+        const pass = document.getElementById('admin-pass').value;
+        const authCard = document.getElementById('auth-card');
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const welcomeText = document.getElementById('welcome-text');
+        const overlay = document.getElementById('admin-lock-overlay');
+        const errorMsg = document.getElementById('error-msg');
+    
+        // Credentials Logic
+        if (user === "admin" && pass === "cybercop123") {
+            // Hide Login Card
+            authCard.style.display = "none";
+            
+            // Show Welcome Screen
+            welcomeScreen.style.display = "block";
+            setTimeout(() => {
+                welcomeScreen.style.opacity = "1";
+                typeEffect("WELCOME MR. KIM", welcomeText);
+            }, 100);
+    
+            // Final Unlock after animation (3 seconds)
+            setTimeout(() => {
+                overlay.style.opacity = "0";
+                setTimeout(() => {
+                    overlay.style.display = "none";
+                }, 1000);
+            }, 4000);
+    
+        } else {
+            errorMsg.style.display = "block";
+            authCard.style.borderColor = "#ff4d4d";
+            setTimeout(() => { authCard.style.borderColor = "#00f2fe"; }, 1000);
+        }
+    }
+    
+    // Typing effect function
+    function typeEffect(text, element) {
+        let i = 0;
+        const speed = 100; // speed in ms
+        element.innerHTML = "";
+        function type() {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            }
+        }
+        type();
+    }
+    
+    // Enter key trigger
+    document.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') checkAdmin();
+    });
+    </script>
+    
+    <style>
+    /* Glowing Line Animation */
+    #line-anim {
+        animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+        0% { transform: scaleX(0.1); opacity: 0.2; }
+        50% { transform: scaleX(1); opacity: 1; }
+        100% { transform: scaleX(0.1); opacity: 0.2; }
+    }
+    </style>
+
+    <div class="history-wrapper">
+        <div class="history-card">
+            <div class="header-flex">
+                <h1 class="logo">ADMIN<span>FORENSICS</span></h1>
+                <button onclick="clearHistory()" class="btn-clear">🔥 Wipe All Logs</button>
+            </div>
+
+            <h2 class="section-title">🔗 URL Intelligence Logs</h2>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Analyzed URL</th>
+                            <th>Security Status</th>
+                            <th>Domain Age</th>
+                            <th>Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for scan in urls %}
+                        <tr>
+                            <td>#{{ scan[0] }}</td>
+                            <td style="color: #00d4ff; max-width: 250px; word-break: break-all;">{{ scan[1] }}</td>
+                            <td>
+                                <span class="status-badge {% if 'SAFE' in scan[2] or 'CLEAN' in scan[2] %} bg-safe {% else %} bg-danger {% endif %}">
+                                    {{ scan[2] }}
+                                </span>
+                            </td>
+                            <td>{{ scan[3] }}</td>
+                            <td style="color: #888;">{{ scan[4] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% if not urls %}<p style="text-align:center; color:#555;">No URL records found.</p>{% endif %}
+            </div>
+
+            <h2 class="section-title">📁 File Malware Logs</h2>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Filename</th>
+                            <th>Forensic Hash (MD5)</th>
+                            <th>AI Detection</th>
+                            <th>Scan Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for file in files %}
+                        <tr>
+                            <td>#{{ file[0] }}</td>
+                            <td style="color: #ffcc00;">{{ file[1] }}</td>
+                            <td><code style="color: #888;">{{ file[2] }}</code></td>
+                            <td>
+                                <span class="status-badge 
+                                    {% if 'DANGEROUS' in file[3] %} bg-danger 
+                                    {% elif 'SUSPICIOUS' in file[3] %} bg-warning 
+                                    {% else %} bg-safe {% endif %}">
+                                    {{ file[3] }}
+                                </span>
+                            </td>
+                            <td style="color: #888;">{{ file[4] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% if not files %}<p style="text-align:center; color:#555;">No file forensic records found.</p>{% endif %}
+            </div>
+
+            <div style="margin-top: 30px; text-align: center;">
+                <a href="/" style="color: #00d4ff; text-decoration: none;">← Back to CyberCop Terminal</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function clearHistory() {
+    if(confirm("ALART: DO YOU REALLY WANT TO CLEAN HISTORY?")) {
+        try {
+            // Ensure method is POST
+            const response = await fetch('/clear_history', { 
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const data = await response.json();
+            
+            if (data.status === "success") {
+                alert(data.message);
+                location.reload(); // Page refresh 
+            } else {
+                alert("Backend Error: " + data.message);
+            }
+        } catch (e) {
+            alert("Connection Error: CANNOT CONNECT TO SERVER.");
+        }
+    }
+}
+    </script>
+</body>
+</html>

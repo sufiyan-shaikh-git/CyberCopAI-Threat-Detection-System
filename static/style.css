@@ -1,0 +1,204 @@
+:root {
+    --neon-blue: #00d4ff;
+    --neon-red: #ff0055;
+    --neon-green: #39ff14;
+    --bg-dark: #0a0b10;
+    --card-bg: rgba(20, 22, 30, 0.9);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1920');
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: white;
+    line-height: 1.6;
+}
+
+.main-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding-bottom: 50px;
+}
+
+/* --- HERO SECTION --- */
+.hero-section {
+    text-align: center;
+    padding: 100px 20px 60px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.logo {
+    font-size: 4rem;
+    font-weight: 900;
+    letter-spacing: 5px;
+}
+
+.logo span { color: var(--neon-blue); text-shadow: 0 0 15px var(--neon-blue); }
+
+.tagline { font-size: 1.2rem; color: #ccc; margin-bottom: 30px; }
+
+/* --- SCANNER CARDS --- */
+.scanner-grid {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.scan-card {
+    background: var(--card-bg);
+    border: 1px solid #333;
+    padding: 30px;
+    border-radius: 20px;
+    width: 350px;
+    transition: 0.3s;
+    backdrop-filter: blur(10px);
+}
+
+.scan-card:hover { border-color: var(--neon-blue); transform: translateY(-5px); }
+
+.scan-card h3 { margin-bottom: 15px; color: var(--neon-blue); }
+
+input[type="text"], input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    margin: 15px 0;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background: #111;
+    color: white;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    background: var(--neon-blue);
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-primary:hover { filter: brightness(1.2); box-shadow: 0 0 15px var(--neon-blue); }
+
+
+/* --- FAQ SECTION --- */
+.faq-container {
+    width: 90%;
+    max-width: 1000px;
+    padding: 60px 0;
+}
+
+.section-title { margin-bottom: 30px; text-align: center; font-size: 2.5rem; }
+
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.faq-item {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 25px;
+    border-radius: 15px;
+}
+
+.faq-item h4 { color: var(--neon-blue); margin-bottom: 10px; }
+
+/* --- FOOTER --- */
+/* Sleek & Thin Cyber Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&family=Orbitron:wght@400&display=swap');
+
+.footer-section {
+    width: 100%; /* Poora space lene ke liye */
+    background: transparent; /* Background hatane ke liye */
+    padding: 40px 50px; /* Sides mein thodi padding professional look ke liye */
+    border-top: 1px solid rgba(0, 242, 254, 0.15); /* Patli glowing line */
+    font-family: 'Inter', sans-serif; /* Thin and clean font */
+    box-sizing: border-box;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between; /* Content ko corners tak failane ke liye */
+    align-items: flex-start;
+    width: 100%;
+}
+
+.footer-heading {
+    font-family: 'Orbitron', sans-serif;
+    color: #00f2fe;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 0.9rem; /* Chota aur sophisticated */
+    font-weight: 400;
+    margin-bottom: 15px;
+    opacity: 0.8;
+}
+
+.policy-text {
+    color: #94a3b8;
+    line-height: 1.6;
+    font-size: 0.85rem;
+    font-weight: 200; /* Extra thin */
+    max-width: 500px;
+}
+
+.dev-info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 300px;
+}
+
+.dev-row {
+    display: flex;
+    justify-content: bbetween;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.label-tech {
+    color: #64748b; /* Thoda dim label */
+    font-weight: 300;
+    margin-right: 20px;
+}
+
+.value-tech {
+    color: #e2e8f0;
+    font-weight: 300;
+    text-align: right;
+}
+
+.contact-link {
+    color: #00f2fe;
+    text-decoration: none;
+    font-weight: 300;
+    opacity: 0.7;
+    transition: 0.3s;
+}
+
+.contact-link:hover {
+    opacity: 1;
+    text-shadow: 0 0 5px #00f2fe;
+}
+
+.footer-col h4 { margin-bottom: 20px; border-bottom: 2px solid var(--neon-blue); display: inline-block; }
+
+.hidden { display: none; }
+
+@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* History Status Colors */
+.text-safe { color: #39ff14 !important; font-weight: bold; }
+.text-danger { color: #ff0055 !important; font-weight: bold; }
+.status-badge { padding: 5px 10px; border-radius: 4px; font-size: 0.85rem; }

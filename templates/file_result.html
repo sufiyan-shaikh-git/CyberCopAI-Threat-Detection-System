@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberCop AI - Forensic Report</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Result Color Logic */
+        .result-box {
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border: 2px solid;
+        }
+        
+        /* Dangerous - Dark Red */
+        .status-dangerous {
+            background: rgba(255, 0, 0, 0.15);
+            border-color: #ff0000;
+            color: #ff4d4d;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+        }
+
+        /* Suspicious - Yellow */
+        .status-suspicious {
+            background: rgba(255, 204, 0, 0.15);
+            border-color: #ffcc00;
+            color: #ffcc00;
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.3);
+        }
+
+        /* Safe - Green */
+        .status-safe {
+            background: rgba(0, 255, 0, 0.1);
+            border-color: #00ff00;
+            color: #00ff00;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .detail-item {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #00d4ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header style="text-align: center; margin-bottom: 30px;">
+            <h1 style="color: #00d4ff;">🛡️ CyberCop AI Forensic Analysis</h1>
+            <p>File Integrity & Malware Intelligence Report</p>
+        </header>
+
+        <div class="result-box 
+            {% if 'DANGEROUS' in scan_result %} status-dangerous 
+            {% elif 'SUSPICIOUS' in scan_result %} status-suspicious 
+            {% else %} status-safe {% endif %}">
+            {{ scan_result }}
+        </div>
+
+        <div class="report-card">
+            <h3>📄 File Metadata</h3>
+            <div class="details-grid">
+                <div class="detail-item"><strong>File Name:</strong><br>{{ filename }}</div>
+                <div class="detail-item"><strong>Format:</strong><br>{{ extension }}</div>
+                <div class="detail-item"><strong>File Size:</strong><br>{{ size }}</div>
+                <div class="detail-item"><strong>MD5 Hash:</strong><br><small style="word-break: break-all;">{{ file_md5 }}</small></div>
+            </div>
+
+            <h3 style="margin-top: 30px;">🔍 AI & Forensic Breakdown</h3>
+            <div class="detail-item" style="border-left-color: #ffcc00; margin-bottom: 10px;">
+                <strong>Threat Probability:</strong> {{ prediction_score }}
+            </div>
+            <div class="detail-item">
+                <strong>Engine Insight:</strong> {{ pe_details }}
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="/" class="btn-primary" style="text-decoration: none; padding: 12px 40px; border-radius: 25px;">New Scan</a>
+        </div>
+    </div>
+</body>
+</html>

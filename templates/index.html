@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberCop - AI Threat Detector</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="main-wrapper">
+        <header class="hero-section">
+            <h1 class="logo">CYBER<span>COP</span></h1>
+            <p class="tagline">Advanced AI-Powered Phishing & Malware Detection</p>
+            
+
+            <div class="scanner-grid">
+                <div class="scan-card">
+                    <h3>🔗 URL Scanner</h3>
+                    <p>Detect spoofed links & domain age</p>
+                    <form action="/scan_url" method="POST">
+                        <input type="text" name="url" placeholder="Enter URL (e.g. facebook.com)..." required>
+                        <button type="submit" class="btn-primary">Scan Link</button>
+                    </form>
+                </div>
+
+                <div class="scan-card">
+                    <h3>📁 Document Scanner</h3>
+                    <p>Analyze .exe files for malware</p>
+                    <form action="/scan_file" method="POST" enctype="multipart/form-data">
+                        <input type="file" name="file" class="file-input" required>
+                        <button type="submit" class="btn-primary">Scan File</button>
+                    </form>
+            </div>
+        </header>
+
+        <div id="resultBox" class="result-card hidden">
+            <div class="result-header">
+                <h2 id="statusTitle">🔍 Analysis Report</h2>
+            </div>
+            <div class="reason-container">
+                <p id="reasonText">Analysis results will appear here...</p>
+            </div>
+            <button onclick="document.getElementById('resultBox').classList.add('hidden')" class="btn-close">Close Analysis</button>
+        </div>
+
+        <section class="faq-container">
+            <h2 class="section-title">🛡️ CyberCop FAQ</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h4>How does the URL scanner work?</h4>
+                    <p>Our engine checks the domain's WHOIS metadata to find its registration age and looks for "spoofing" (like a fake site pretending to be Google or Facebook).</p>
+                </div>
+                <div class="faq-item">
+                    <h4>Is the Malware scanner accurate?</h4>
+                    <p>It uses a Random Forest Machine Learning model to analyze Portable Executable (PE) headers, detecting patterns common in malware files.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>Do you store my files?</h4>
+                    <p>No. Files are uploaded temporarily for analysis and are immediately deleted from the server after the scan is complete.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>How does CyberCop AI detect malware?</h4>
+                    <p>CyberCop AI uses Static Analysis to identify threats. Instead of running the file (which could be dangerous), it scans the PE (Portable Executable) Headers of the .exe file. We have trained a Random Forest Machine Learning model on a dataset of over 19,000 samples to recognize technical patterns—like high entropy or unusual section sizes—that distinguish malware from legitimate software.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer-section">
+            <div class="footer-container">
+                
+                <div style="flex: 1;">
+                    <h3 class="footer-heading">// Legal & Privacy</h3>
+                    <p class="policy-text">
+                        CyberCop ensures that no user-specific data or uploaded files are shared with third parties. All scanning is performed locally using secure encrypted channels to maintain maximum confidentiality.
+                    </p>
+                    <p style="color: #475569; font-size: 0.75rem; margin-top: 15px; font-weight: 300;">
+                        © 2026 CYBERCOP AI. ALL RIGHTS RESERVED.
+                    </p>
+                </div>
+        
+                <div class="dev-info-grid">
+                    <h3 class="footer-heading" style="text-align: right;">// Developers</h3>
+                    
+                    <div class="dev-row">
+                        <span class="label-tech">LEAD DEVELOPER</span>
+                        <span class="value-tech">Sufiyan Shaikh</span>
+                    </div>
+                    
+                    <div class="dev-row">
+                        <span class="label-tech">CORE TEAM</span>
+                        <span class="value-tech">Rehan Quadri</span>
+                    </div>
+                 
+                    <div class="dev-row" style="margin-top: 5px;">
+                        <span class="label-tech">ENCRYPTED MAIL</span>
+                        <a href="mailto:sufiyan77744@gmail.com" class="contact-link">sufiyan77744@gmail.com</a>
+                    </div>
+                </div>
+        
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // FIXED: URL Scanner now uses standard form submission to allow redirection to result.html
+      
+        async function scanFile() {
+            const fileInput = document.getElementById('fileInput');
+            const resBox = document.getElementById('resultBox');
+            if (fileInput.files.length === 0) { alert("Please select a file!"); return; }
+
+            resBox.classList.remove('hidden');
+            resBox.scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('statusTitle').innerText = "⏳ Analyzing File...";
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            try {
+                const response = await fetch('/scan_file', { method: 'POST', body: formData });
+                const data = await response.json();
+
+                document.getElementById('statusTitle').innerText = data.result.includes('DANGER') ? "🚨 MALWARE FOUND" : "✅ CLEAN";
+                document.getElementById('reasonText').innerText = data.result;
+                resBox.className = data.result.includes('DANGER') ? "result-card danger-border" : "result-card safe-border";
+            } catch (e) { alert("File scan failed!"); }
+        }
+
+        // Security Scripts
+        document.addEventListener('contextmenu', event => {
+            alert("Security Alert: Right click is disabled for security reasons!");
+            event.preventDefault();
+        });
+
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123) {
+                alert("Security Alert: Developer Tools access is monitored!");
+                return false;
+            }
+        };
+    </script>
+</body>
+</html>

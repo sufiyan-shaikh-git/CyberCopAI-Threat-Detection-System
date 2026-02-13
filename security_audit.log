@@ -1,0 +1,22 @@
+2026-02-12 21:48:51,510 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://10.194.218.11:10000
+2026-02-12 21:48:51,510 - INFO - [33mPress CTRL+C to quit[0m
+2026-02-12 21:48:51,515 - INFO -  * Restarting with stat
+2026-02-12 21:48:54,594 - WARNING -  * Debugger is active!
+2026-02-12 21:48:54,602 - INFO -  * Debugger PIN: 891-022-066
+2026-02-12 21:48:54,699 - INFO - User IP: 127.0.0.1 | Accessed: /
+2026-02-12 21:48:54,706 - INFO - 127.0.0.1 - - [12/Feb/2026 21:48:54] "GET / HTTP/1.1" 200 -
+2026-02-12 21:48:54,724 - INFO - User IP: 127.0.0.1 | Accessed: /static/style.css
+2026-02-12 21:48:54,785 - INFO - 127.0.0.1 - - [12/Feb/2026 21:48:54] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-02-12 21:48:54,859 - INFO - User IP: 127.0.0.1 | Accessed: /favicon.ico
+2026-02-12 21:48:54,860 - INFO - 127.0.0.1 - - [12/Feb/2026 21:48:54] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-02-12 22:28:25,651 - INFO - User IP: 127.0.0.1 | Accessed: /history
+2026-02-12 22:28:25,676 - INFO - 127.0.0.1 - - [12/Feb/2026 22:28:25] "GET /history HTTP/1.1" 200 -
+2026-02-12 22:28:25,686 - INFO - User IP: 127.0.0.1 | Accessed: /static/style.css
+2026-02-12 22:28:25,688 - INFO - 127.0.0.1 - - [12/Feb/2026 22:28:25] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-02-12 23:04:30,143 - INFO - User IP: 127.0.0.1 | Accessed: /
+2026-02-12 23:04:30,144 - INFO - 127.0.0.1 - - [12/Feb/2026 23:04:30] "GET / HTTP/1.1" 200 -
+2026-02-12 23:04:30,165 - INFO - User IP: 127.0.0.1 | Accessed: /static/style.css
+2026-02-12 23:04:30,166 - INFO - 127.0.0.1 - - [12/Feb/2026 23:04:30] "[36mGET /static/style.css HTTP/1.1[0m" 304 -

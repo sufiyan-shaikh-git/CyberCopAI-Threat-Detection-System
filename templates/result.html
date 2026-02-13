@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberCop AI - Analysis Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body { background-color: #0a0a0a; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .container { max-width: 900px; margin: 50px auto; padding: 20px; border: 1px solid #333; border-radius: 15px; background: #111; box-shadow: 0 0 20px rgba(0, 255, 0, 0.1); }
+        h1 { color: #ff3333; text-align: center; text-transform: uppercase; letter-spacing: 2px; border-bottom: 2px solid #333; padding-bottom: 10px; }
+        .url-display { background: #1a1a1a; padding: 15px; border-radius: 8px; margin-bottom: 30px; border-left: 5px solid #ff3333; word-break: break-all; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #222; }
+        th { background-color: #1a1a1a; color: #00ff00; text-transform: uppercase; font-size: 0.9em; }
+        
+        .status-safe { color: #00ff00; font-weight: bold; }
+        .status-unsafe { color: #ff3333; font-weight: bold; }
+        .status-warning { color: #ffaa00; font-weight: bold; }
+
+        .conclusion-box { margin-top: 30px; padding: 20px; border-radius: 10px; background: #1a1a1a; border: 1px dashed #444; }
+        .ai-recommendation { font-size: 1.2em; margin-top: 15px; color: #fff; padding: 10px; border-radius: 5px; }
+        .go-btn { background: #00ff00; color: #000; }
+        .stop-btn { background: #ff3333; color: #fff; }
+
+        .back-btn { display: inline-block; margin-top: 20px; color: #888; text-decoration: none; font-size: 0.9em; }
+        .back-btn:hover { color: #fff; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🚨 CyberCop Analysis Report</h1>
+    
+    <div class="url-display">
+        <strong>Scanned URL:</strong> {{ url }}
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Scan Mode</th>
+                <th>Result</th>
+                <th>Description / Findings</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Structural Scan</strong></td>
+                <td class="{{ 'status-unsafe' if structural_risk > 0 else 'status-safe' }}">
+                    {{ 'UNSAFE' if structural_risk > 0 else 'SAFE' }}
+                </td>
+                <td>{{ structural_desc }}</td>
+            </tr>
+
+            <tr>
+                <td><strong>Domain Check</strong></td>
+                <td class="{{ 'status-safe' if domain_exists else 'status-unsafe' }}">
+                    {{ 'FOUND / ACTIVE' if domain_exists else 'NOT FOUND / 404' }}
+                </td>
+                <td>{{ domain_check_desc }}</td>
+            </tr>
+
+            <tr>
+                <td><strong>Domain Info</strong></td>
+                <td class="status-warning">{{ domain_info_status }}</td>
+                <td>
+                    Age: {{ domain_age }} days <br>
+                    Type: {{ domain_type_desc }} <br>
+                    Metadata: {{ domain_metadata }}
+                </td>
+            </tr>
+
+            <tr>
+                <td><strong>Global Blacklist</strong></td>
+                <td class="{{ 'status-unsafe' if is_blacklisted else 'status-safe' }}">
+                    {{ 'YES (In Database)' if is_blacklisted else 'NO (Clean)' }}
+                </td>
+                <td>Checked via PhishStats & Live Security Feeds.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="conclusion-box">
+        <h3>🤖 Overall AI Conclusion:</h3>
+        <p>{{ ai_summary }}</p>
+        
+        <div class="ai-recommendation {{ 'stop-btn' if final_score < 50 else 'go-btn' }}">
+            <strong>AI Recommendation:</strong> {{ 'STOP! Do not proceed.' if final_score < 50 else 'PROCEED with caution.' }}
+        </div>
+        
+        <p style="margin-top: 10px; font-size: 0.8em; color: #666;">
+            Confidence Score: {{ final_score }}% Safe
+        </p>
+    </div>
+
+    <a href="/" class="back-btn">← Back to Dashboard</a>
+</div>
+
+</body>
+</html>
